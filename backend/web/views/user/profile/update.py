@@ -14,7 +14,7 @@ class UpdateProfileView(APIView):
         try:
             user = request.user
             user_profile = UserProfile.objects.get(user=user)
-            username = request.date.get('username').strip()
+            username = request.data.get('username').strip()   # data写成了date 不报错 但是没效果
             profile = request.data.get('profile').strip()[:500]
             photo = request.FILES.get('photo', None)
 
@@ -26,7 +26,7 @@ class UpdateProfileView(APIView):
                 return Response({
                     'result': '简介不能为空'
                 })
-            if username != user.username and User.objects.get(username=username).exists():
+            if username != user.username and User.objects.filter(username=username).exists():
                 return Response({
                     'result': '用户名已存在'
                 })
