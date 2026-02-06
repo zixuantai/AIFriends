@@ -42,7 +42,7 @@ async function handleUpdate() {
         errorMessage.value = data.result
       }
     } catch (err) {
-      console.log(err)
+
     }
   }
 }
@@ -58,7 +58,7 @@ async function handleUpdate() {
         <Username ref="username-ref" :username="user.username"/>
         <Profile ref="profile-ref" :profile="user.profile"/>
 
-        <p v-if="errorMessage" class="text-sm text-red-500">{{ errorMessage }}</p>
+        <p v-if="errorMessage" class="text-sm text-red-500 ml-80">{{ errorMessage }}</p>
 
         <div class="flex justify-center">
           <button @click="handleUpdate" class="btn btn-neutral w-20 ml-80 mt-2">更新</button>
