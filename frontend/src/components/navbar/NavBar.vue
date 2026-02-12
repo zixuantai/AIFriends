@@ -8,6 +8,7 @@ import {useUserStore} from "@/stores/user.js";
 import UserMenu from "@/components/navbar/UserMenu.vue";
 import {ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
+import AIFriendsLogoIcon from "@/components/navbar/icons/AIFriendsLogoIcon.vue";
 
 const user = useUserStore()
 const searchQuery = ref('')
@@ -38,6 +39,9 @@ function handleSearch() {
             <MenuIcon/>
           </label>
           <div class="px-2 font-bold text-xl">AIFriends</div>
+          <div>
+            <AIFriendsLogoIcon/>
+          </div>
         </div>
         <div class="navbar-center w-4/5 max-w-180 flex justify-center">
           <form @submit.prevent="handleSearch" class="join w-4/5 flex justify-center">
