@@ -3,7 +3,6 @@ import {useUserStore} from "@/stores/user.js";
 import UserSpaceIcon from "@/components/navbar/icons/UserSpaceIcon.vue";
 import UserProfileIcon from "@/components/navbar/icons/UserProfileIcon.vue";
 import UserLogoutIcon from "@/components/navbar/icons/UserLogoutIcon.vue";
-import LoginIndex from "@/views/user/account/LoginIndex.vue";
 import api from "@/js/http/api.js";
 import {useRouter} from "vue-router";
 
