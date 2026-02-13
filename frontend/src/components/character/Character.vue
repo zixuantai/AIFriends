@@ -116,18 +116,6 @@ async function openChatField() {
     <ChatField ref="chat-field-ref" :friend="friend"/>
   </div>
 
-  <!-- 1. 通用确认组件 - 修改角色（示例：修改操作） -->
-  <ConfirmActionModal
-    v-model="showCharacterUpdateModal"
-    title="修改角色"
-    message="你确定要进入角色编辑页面修改该角色信息吗？未保存的修改将会丢失。"
-    confirmText="前往编辑"
-    cancelText="取消"
-    confirmBtnType="btn-primary"
-    @confirm="handleUpdateCharacter"
-  />
-
-  <!-- 2. 通用确认组件 - 删除角色（示例：删除操作） -->
   <ConfirmActionModal
     v-model="showCharacterDeleteModal"
     title="提示"
@@ -137,8 +125,7 @@ async function openChatField() {
     confirmBtnType="btn-error"
     @confirm="handleRemoveCharacter"
   />
-
-  <!-- 3. 通用确认组件 - 删除好友（示例：删除操作） -->
+  
   <ConfirmActionModal
     v-model="showFriendDeleteModal"
     title="提示"
