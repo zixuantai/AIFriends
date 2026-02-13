@@ -125,7 +125,7 @@ async function openChatField() {
     confirmBtnType="btn-error"
     @confirm="handleRemoveCharacter"
   />
-  
+
   <ConfirmActionModal
     v-model="showFriendDeleteModal"
     title="提示"
