@@ -8,6 +8,7 @@ import {base64ToFile} from "@/js/utils/base64_to_file.js";
 import api from "@/js/http/api.js";
 import {useRoute, useRouter} from "vue-router";
 import {useUserStore} from "@/stores/user.js";
+import ConfirmActionModal from "@/components/confirm/ConfirmActionModal.vue";
 
 const user = useUserStore()
 const router = useRouter()
@@ -37,8 +38,9 @@ const nameRef = useTemplateRef('name-ref')
 const profileRef = useTemplateRef('profile-ref')
 const backgroundImageRef = useTemplateRef('background-image-ref')
 const errorMessage = ref('')
+const showUpdateConfirmModal = ref(false)
 
-async function handleCreate() {
+async function handleUpdate() {
   const photo = photoRef.value.myPhoto
   const name = nameRef.value.myName?.trim()
   const profile = profileRef.value.myProfile?.trim()
@@ -100,11 +102,21 @@ async function handleCreate() {
         <p v-if="errorMessage" class="text-sm text-red-500 ml-80">{{ errorMessage }}</p>
 
         <div class="flex justify-center">
-          <button @click="handleCreate" class="btn btn-neutral w-20 mt-2 ml-80">更新</button>
+          <button @click="showUpdateConfirmModal=true" class="btn btn-neutral w-20 mt-2 ml-80">更新</button>
         </div>
       </div>
     </div>
   </div>
+
+  <ConfirmActionModal
+    v-model="showUpdateConfirmModal"
+    title="提示"
+    message="确定要保存对该角色的修改吗？修改后将覆盖原有信息。"
+    confirmText="确认"
+    cancelText="取消"
+    confirmBtnType="btn-primary"
+    @confirm="handleUpdate"
+  />
 </template>
 
 <style scoped>

@@ -8,6 +8,7 @@ import {base64ToFile} from "@/js/utils/base64_to_file.js";
 import api from "@/js/http/api.js";
 import {useRouter} from "vue-router";
 import {useUserStore} from "@/stores/user.js";
+import ConfirmActionModal from "@/components/confirm/ConfirmActionModal.vue";
 
 const user = useUserStore()
 const router = useRouter()
@@ -17,6 +18,7 @@ const nameRef = useTemplateRef('name-ref')
 const profileRef = useTemplateRef('profile-ref')
 const backgroundImageRef = useTemplateRef('background-image-ref')
 const errorMessage = ref('')
+const showCreateConfirmModal = ref(false)
 
 async function handleCreate() {
   const photo = photoRef.value.myPhoto
@@ -73,11 +75,21 @@ async function handleCreate() {
         <p v-if="errorMessage" class="text-sm text-red-500 ml-80">{{ errorMessage }}</p>
 
         <div class="flex justify-center">
-          <button @click="handleCreate" class="btn btn-neutral w-20 mt-2 ml-80">创建</button>
+          <button @click="showCreateConfirmModal=true" class="btn btn-neutral w-20 mt-2 ml-80">创建</button>
         </div>
       </div>
     </div>
   </div>
+
+  <ConfirmActionModal
+    v-model="showCreateConfirmModal"
+    title="提示"
+    message="确定要创建该角色吗"
+    confirmText="确认"
+    cancelText="取消"
+    confirmBtnType="btn-primary"
+    @confirm="handleCreate"
+  />
 </template>
 
 <style scoped>

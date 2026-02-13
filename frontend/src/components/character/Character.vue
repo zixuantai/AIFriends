@@ -6,12 +6,16 @@ import RemoveIcon from "@/components/character/icons/RemoveIcon.vue";
 import api from "@/js/http/api.js";
 import ChatField from "@/components/character/chat_field/ChatField.vue";
 import {useRouter} from "vue-router";
+import ConfirmActionModal from "@/components/confirm/ConfirmActionModal.vue";
 
 const props = defineProps(['character', 'canEdit', 'canRemoveFriend', 'friendId'])
 const emit = defineEmits(['remove'])
 const isHover = ref(false)
 const user = useUserStore()
 const router = useRouter()
+
+const showCharacterDeleteModal = ref(false);  // 删除角色
+const showFriendDeleteModal = ref(false);     // 删除好友
 
 async function handleRemoveCharacter() {
   try {
@@ -75,13 +79,13 @@ async function openChatField() {
           <RouterLink @click.stop :to="{name: 'update-character', params: {character_id: character.id}}" class="btn btn-circle btn-ghost bg-transparent">
             <UpdateIcon/>
           </RouterLink>
-          <button @click.stop="handleRemoveCharacter" class="btn btn-circle btn-ghost bg-transparent">
+          <button @click.stop="showCharacterDeleteModal=true" class="btn btn-circle btn-ghost bg-transparent">
             <RemoveIcon/>
           </button>
         </div>
 
         <div v-if="canRemoveFriend" class="absolute right-1 top-85">
-          <button @click.stop="handleRemoveFriend" class="btn btn-circle btn-ghost bg-transparent">
+          <button @click.stop="showFriendDeleteModal=true" class="btn btn-circle btn-ghost bg-transparent">
             <RemoveIcon/>
           </button>
         </div>
@@ -111,6 +115,39 @@ async function openChatField() {
     </RouterLink>
     <ChatField ref="chat-field-ref" :friend="friend"/>
   </div>
+
+  <!-- 1. 通用确认组件 - 修改角色（示例：修改操作） -->
+  <ConfirmActionModal
+    v-model="showCharacterUpdateModal"
+    title="修改角色"
+    message="你确定要进入角色编辑页面修改该角色信息吗？未保存的修改将会丢失。"
+    confirmText="前往编辑"
+    cancelText="取消"
+    confirmBtnType="btn-primary"
+    @confirm="handleUpdateCharacter"
+  />
+
+  <!-- 2. 通用确认组件 - 删除角色（示例：删除操作） -->
+  <ConfirmActionModal
+    v-model="showCharacterDeleteModal"
+    title="提示"
+    message="确定要执行删除操作吗？此操作不可恢复，相关数据将会被删除。"
+    confirmText="确认"
+    cancelText="取消"
+    confirmBtnType="btn-error"
+    @confirm="handleRemoveCharacter"
+  />
+
+  <!-- 3. 通用确认组件 - 删除好友（示例：删除操作） -->
+  <ConfirmActionModal
+    v-model="showFriendDeleteModal"
+    title="提示"
+    message="确定要执行删除操作吗？此操作不可恢复，相关数据将会被删除。"
+    confirmText="确认"
+    cancelText="取消"
+    confirmBtnType="btn-error"
+    @confirm="handleRemoveFriend"
+  />
 </template>
 
 <style scoped>

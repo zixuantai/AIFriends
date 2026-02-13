@@ -31,7 +31,7 @@ defineExpose({
 <template>
   <dialog ref="modal-ref" class="modal">
     <div class="modal-box w-90 h-150 rounded-2xl" :style="modalStyle">
-      <button @click="modalRef.close()" class="btn btn-base btn-circle btn-ghost bg-transparent absolute right-2 top-5.75">✕</button>
+      <button @click="modalRef.close()" class="btn btn-base btn-circle btn-ghost bg-transparent absolute right-2 top-5">✕</button>
       <InputField/>
       <CharacterPhotoField v-if="friend" :character="friend.character"/>
     </div>
