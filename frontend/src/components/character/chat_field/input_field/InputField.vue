@@ -20,6 +20,10 @@ async function handleSend() {
   const content = message.value.trim()
   if (!content) return
   message.value = ''
+  console.log('准备发送的参数：', {
+    friendId: props.friendId,
+    message: content
+  })
 
   try {
     await streamApi('/api/friend/message/chat/', {
