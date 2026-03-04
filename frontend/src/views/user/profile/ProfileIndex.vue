@@ -6,6 +6,7 @@ import {useUserStore} from "@/stores/user.js";
 import {ref, useTemplateRef} from "vue";
 import {base64ToFile} from "@/js/utils/base64_to_file.js";
 import api from "@/js/http/api.js";
+import ConfirmActionModal from "@/components/confirm/ConfirmActionModal.vue";
 
 const user = useUserStore()
 
@@ -13,6 +14,7 @@ const photoRef = useTemplateRef('photo-ref')
 const usernameRef = useTemplateRef('username-ref')
 const profileRef = useTemplateRef('profile-ref')
 const errorMessage = ref('')
+const showUpdateConfirmModal = ref(false)
 
 async function handleUpdate() {
   const photo = photoRef.value.myPhoto
@@ -61,11 +63,21 @@ async function handleUpdate() {
         <p v-if="errorMessage" class="text-sm text-red-500 ml-80">{{ errorMessage }}</p>
 
         <div class="flex justify-center">
-          <button @click="handleUpdate" class="btn btn-neutral w-20 ml-80 mt-2">更新</button>
+          <button @click="showUpdateConfirmModal=true" class="btn btn-neutral w-20 ml-80 mt-2">更新</button>
         </div>
       </div>
     </div>
   </div>
+
+  <ConfirmActionModal
+    v-model="showUpdateConfirmModal"
+    title="提示"
+    message="确定要更新个人信息吗？更新后将覆盖原有信息。"
+    confirmText="确认"
+    cancelText="取消"
+    confirmBtnType="btn-primary"
+    @confirm="handleUpdate"
+  />
 </template>
 
 <style scoped>
