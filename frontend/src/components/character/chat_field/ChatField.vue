@@ -40,6 +40,10 @@ function handleAddToLastMessage(delta) {
   chatHistoryRef.value.scrollToBottom()
 }
 
+function handlePushFrontMessage(msg) {
+  history.value.unshift(msg)
+}
+
 defineExpose({
   showModal,
 })
@@ -55,6 +59,7 @@ defineExpose({
           :history="history"
           :friendId="friend.id"
           :character="friend.character"
+          @pushFrontMessage="handlePushFrontMessage"
       />
       <InputField
           v-if="friend"
