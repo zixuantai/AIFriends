@@ -38,7 +38,7 @@ function handleSearch() {
           <label for="my-drawer-4" aria-label="open sidebar" class="btn btn-square btn-ghost rounded-3xl">
             <MenuIcon/>
           </label>
-          <div class="ml-4 mt-0.475">
+          <div class="ml-4 mt-0.5">
             <AIFriendsLogoIcon/>
           </div>
           <div class="px-1.5 font-bold text-xl">AIFriends</div>
