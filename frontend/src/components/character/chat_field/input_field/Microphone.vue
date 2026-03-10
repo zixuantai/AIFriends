@@ -62,7 +62,6 @@ const sendToBackend = async (arrayBuffer) => {
   } catch (err) {
     console.error(err)
   }
-
 };
 
 onMounted(() => {
