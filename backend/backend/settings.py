@@ -11,15 +11,12 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 from pathlib import Path
 from dotenv import load_dotenv
+import mimetypes  # 新增：配置MIME类型
 
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-=l#8l%6#87r%v_6*#tp0hi7xch_=-+isc7b%59ftwnsce%h93$'
@@ -27,11 +24,10 @@ SECRET_KEY = 'django-insecure-=l#8l%6#87r%v_6*#tp0hi7xch_=-+isc7b%59ftwnsce%h93$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+# 修复1：允许所有主机（开发环境），解决127.0.0.1访问问题
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -74,10 +70,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-
 # Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -85,10 +78,7 @@ DATABASES = {
     }
 }
 
-
 # Password validation
-# https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -104,26 +94,21 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
-# https://docs.djangoproject.com/en/6.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'Asia/Shanghai'
-
 USE_I18N = True
-
 USE_TZ = True
 
+# 修复2：配置静态文件 MIME 类型（关键）
+mimetypes.add_type('application/javascript', '.js')
+mimetypes.add_type('application/wasm', '.wasm')
+mimetypes.add_type('audio/wav', '.wav')
+mimetypes.add_type('audio/pcm', '.pcm')
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
-
-# 设置static和media静态文件路径
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 # STATIC_ROOT = BASE_DIR / 'static'  # 生产阶段使用
-
 STATICFILES_DIRS = [  # 开发阶段使用，生产阶段需要注释掉
     BASE_DIR / 'static',
 ]
@@ -131,10 +116,8 @@ STATICFILES_DIRS = [  # 开发阶段使用，生产阶段需要注释掉
 MEDIA_URL = 'http://127.0.0.1:8000/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-
 # 使用JWT认证
 from datetime import timedelta
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -145,16 +128,42 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=2),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
-
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-# 配置跨域
+# 修复3：完整的CORS配置
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+# 允许所有源（开发环境），覆盖localhost和127.0.0.1
+CORS_ALLOW_ALL_ORIGINS = True  # 开发环境临时使用，生产环境替换为具体域名
+
+# 或者更严格的配置（推荐）：
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173",
+#     "http://127.0.0.1:5173",
+#     "http://127.0.0.1:8000",
+# ]
+
+# 允许所有请求头和方法（解决Worklet加载的预检请求问题）
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
 ]
