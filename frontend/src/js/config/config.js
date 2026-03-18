@@ -1,4 +1,4 @@
-const platform = 'django' // Vue Django cloud
+const platform = 'vue' // Vue Django cloud
 
 const CONFIG_API = {
     HTTP_URL: '',

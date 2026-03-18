@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 from pathlib import Path
 from dotenv import load_dotenv
+
 import mimetypes  # 新增：配置MIME类型
+
+mimetypes.add_type("application/javascript", ".mjs", True)
 
 load_dotenv()
 
