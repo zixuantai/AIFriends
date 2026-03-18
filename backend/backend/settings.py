@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-=l#8l%6#87r%v_6*#tp0hi7xch_=-+isc7b%59ftwnsce%h93$
 DEBUG = True
 
 # 修复1：允许所有主机（开发环境），解决127.0.0.1访问问题
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'app7682.acapp.acwing.com.cn']
 
 # Application definition
 INSTALLED_APPS = [
@@ -106,14 +106,29 @@ mimetypes.add_type('application/wasm', '.wasm')
 mimetypes.add_type('audio/wav', '.wav')
 mimetypes.add_type('audio/pcm', '.pcm')
 
-# Static files (CSS, JavaScript, Images)
+# 核心必填项：无论开发/生产环境，STATIC_URL 都必须配置
 STATIC_URL = '/static/'
-# STATIC_ROOT = BASE_DIR / 'static'  # 生产阶段使用
-STATICFILES_DIRS = [  # 开发阶段使用，生产阶段需要注释掉
-    BASE_DIR / 'static',
-]
 
-MEDIA_URL = 'http://127.0.0.1:8000/media/'
+# 根据 DEBUG 区分静态文件目录配置
+if not DEBUG:
+    # 生产环境：使用 STATIC_ROOT（执行 collectstatic 收集静态文件）
+    STATIC_ROOT = BASE_DIR / 'static'
+    # 生产环境不需要 STATICFILES_DIRS，避免冲突
+    STATICFILES_DIRS = []
+else:
+    # 开发环境：使用 STATICFILES_DIRS（直接读取静态文件，无需 collectstatic）
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static',
+    ]
+    # 开发环境不需要 STATIC_ROOT（注释或置空）
+    STATIC_ROOT = ''
+
+# 媒体文件配置
+if DEBUG:
+    MEDIA_URL = 'http://127.0.0.1:8000/media/'
+else:
+    MEDIA_URL = 'https://app7682.acapp.acwing.com.cn/media/'
+
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # 使用JWT认证
