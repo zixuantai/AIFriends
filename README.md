@@ -11,6 +11,9 @@
 *created by Zixuan Tai*
 
 ### 项目地址：https://app7682.acapp.acwing.com.cn/
+***声明与说明***   
+*项目演示所使用的域名由AcWing平台提供并完成备案*   
+*本项目代码、功能设计、文档均为独立开发完成*
 <img width="2559" height="1452" alt="AIFriends" src="https://github.com/user-attachments/assets/d416d646-6169-453b-927e-02e177183dca" />
 </div>
 
