@@ -11,8 +11,8 @@
 *created by Zixuan Tai*
 
 ### 项目地址：https://app7682.acapp.acwing.com.cn/
+<img width="2559" height="1452" alt="AIFriends" src="https://github.com/user-attachments/assets/d416d646-6169-453b-927e-02e177183dca" />
 </div>
-
 
 
 ## 🖼️ 概览
