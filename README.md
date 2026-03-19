@@ -9,7 +9,11 @@
 
 **一 个 虚 拟 朋 友 创 作 分 享 平 台**  
 *created by Zixuan Tai*
+
+### 项目地址：https://app7682.acapp.acwing.com.cn/
 </div>
+
+
 
 ## 🖼️ 概览
 **AIFriends**是一个虚拟朋友创作分享平台。支持用户创建并分享任意多个虚拟朋友，可以自定义角色音色、性格、简介；支持语音识别、语音合成、语音复刻，可以跟虚拟人物进行语音通话。
@@ -53,6 +57,80 @@
 - SQLite : 关系型数据库
 - 阿里云语音识别 : 语音转文本服务
 
+## 📁 项目结构
+
+```
+AIFriends/
+├── backend/              # 后端代码
+│   ├── backend/          # Django 项目配置
+│   │   ├── __init__.py
+│   │   ├── asgi.py
+│   │   ├── settings.py   # 项目配置文件
+│   │   ├── urls.py       # 主URL配置
+│   │   └── wsgi.py
+│   ├── web/              # 应用代码
+│   │   ├── documents/    # 文档处理和知识库
+│   │   │   ├── utils/    # 文档处理工具
+│   │   │   └── __init__.py
+│   │   ├── migrations/   # 数据库迁移文件
+│   │   ├── models/       # 数据模型
+│   │   │   ├── __init__.py
+│   │   │   ├── character.py  # 角色模型
+│   │   │   ├── friend.py     # 好友关系模型
+│   │   │   └── user.py       # 用户模型
+│   │   ├── templates/    # HTML模板
+│   │   ├── views/        # 视图函数
+│   │   │   ├── create/   # 创建相关视图
+│   │   │   ├── friend/   # 好友相关视图
+│   │   │   │   ├── message/  # 消息相关视图
+│   │   │   │   │   ├── asr/   # 语音识别
+│   │   │   │   │   ├── chat/  # 聊天功能
+│   │   │   │   │   ├── memory/ # 记忆功能
+│   │   │   ├── homepage/ # 首页视图
+│   │   │   ├── user/     # 用户相关视图
+│   │   │   └── utils/    # 工具函数
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── tests.py
+│   │   └── urls.py       # 应用URL配置
+│   ├── manage.py         # Django 管理命令
+│   └── requirements.txt  # 后端依赖
+├── frontend/             # 前端代码
+│   ├── public/           # 静态资源
+│   │   └── favicon.ico
+│   ├── src/              # 源代码
+│   │   ├── assets/       # 静态资源
+│   │   ├── components/   # 组件
+│   │   │   ├── character/ # 角色相关组件
+│   │   │   │   ├── chat_field/ # 聊天字段
+│   │   │   │   ├── icons/      # 图标
+│   │   │   └── Character.vue   # 角色组件
+│   │   ├── js/           # JavaScript 工具
+│   │   │   ├── config/   # 配置文件
+│   │   │   ├── http/     # HTTP 请求
+│   │   │   └── utils/    # 工具函数
+│   │   ├── router/       # 路由配置
+│   │   ├── stores/       # 状态管理
+│   │   ├── views/        # 页面
+│   │   │   ├── create/   # 创建页面
+│   │   │   ├── error/    # 错误页面
+│   │   │   ├── friend/   # 好友页面
+│   │   │   ├── homepage/ # 首页
+│   │   │   └── user/     # 用户页面
+│   │   ├── App.vue       # 根组件
+│   │   └── main.js       # 入口文件
+│   ├── .gitignore
+│   ├── README.md
+│   ├── index.html        # HTML 模板
+│   ├── jsconfig.json
+│   ├── package-lock.json
+│   ├── package.json      # 前端依赖
+│   └── vite.config.js    # Vite 配置
+├── .gitignore
+└── README.md             # 项目说明
+```
+
 ## 🚀 快速开始
 ### 前置条件
 - Python 3.8 或更高版本
@@ -93,6 +171,44 @@
 ### 访问地址
 - 前端: http://localhost:5173
 - 后端API: http://127.0.0.1:8000
+
+## ⚙️ 配置说明
+
+### 后端配置
+
+主要配置文件：`backend/backend/settings.py`
+
+- **静态文件配置**：
+  - `STATIC_URL = 'static/'`
+  - `STATIC_ROOT = BASE_DIR / 'staticfiles'`（生产环境 collectstatic 目标）
+  - `STATICFILES_DIRS = [BASE_DIR / 'static']`（开发时前端构建产物在 static/frontend）
+
+- **跨域配置**：
+  - `CORS_ALLOWED_ORIGINS`：允许的前端域名
+  - 默认允许 `http://localhost:5173`（Vite 开发服务器）
+
+- **JWT 配置**：
+  - Access Token 有效期：2 小时
+  - Refresh Token 有效期：7 天
+
+### 前端配置
+
+主要配置文件：`frontend/vite.config.js`
+
+- 开发服务器端口：5173
+- 构建输出目录：`../backend/static/frontend`（与 Django 静态目录一致）
+- `npm run build` 后会自动执行 `scripts/update-django-static.js`，同步 Django 模板中的 js/css 路径
+
+## 📚 相关资源
+
+- [Django 官方文档](https://docs.djangoproject.com/)
+- [Vue3 官方文档](https://cn.vuejs.org/)
+- [LangChain 文档](https://python.langchain.com/)
+- [Django REST Framework 文档](https://www.django-rest-framework.org/)
+
+## 📄 许可证
+
+本项目仅供学习交流使用。
 
 ## 🧭 道
 - 用户至上 : 所有功能设计以用户体验为中心
